@@ -149,29 +149,7 @@ void traditionalKnapsack(){
 }
 
 void spaceEfficientKnapsack() {
-    int choice;
 
-
-    while(true){
-        choice = 0;
-        std::cout <<"Options: (1) display index, (2) search, (3) save index, (4) quit\n";
-        std::cin >> choice;
-
-        //Quit
-        if(choice < 1 || choice > 3)
-            break;
-        switch(choice){
-            case 1:
-
-                break;
-            case 2:
-
-                break;
-            case 3:
-
-                break;
-        }
-    }
 }
 
 void greedyBuiltInSort(){
