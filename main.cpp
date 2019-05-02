@@ -117,12 +117,34 @@ void traditionalKnapsack(){
                 F[i][j] = F[i-1][j];
             } else {
                 // Picked
-                F[i][j] = std::max(F[i-1][j], values[i] + F[i-1][j - weights[i]]);
+                F[i][j] = std::max(F[i-1][j], values[i] + F[i-1][j-weights[i]]);
             }
         }
     }
 
     std::cout << "Optimal value for knapsack: " << F[n][capacity] << std::endl;
+
+    // Backtrack to find the optimal subset
+    std::vector<int> optimalSubset;
+
+    int i = n;
+    int j = capacity;
+    while(i >= 0 && j > 0){
+        if((j - weights[i] >= 0) && (values[i] + F[i-1][j-weights[i]] > F[i-1][j])){
+            optimalSubset.push_back(i);
+            j -= weights[i];
+            i--;
+        } else {
+            i--;
+        }
+    }
+
+    std::cout << "Optimal subset: {";
+    for(int a = optimalSubset.size() - 1; a > 0 ; a--){
+        std::cout << optimalSubset[a] << ", ";
+    }
+    std::cout << optimalSubset[0] << "}" << std::endl;
+
 
 }
 
