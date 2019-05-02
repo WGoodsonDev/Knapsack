@@ -7,7 +7,7 @@
 #include <iomanip>
 #include "Knapsack.h"
 
-int setInputFiles(char selection);
+void setInputFiles(char selection);
 void traditionalKnapsack();
 void spaceEfficientKnapsack();
 void greedyBuiltInSort();
@@ -35,8 +35,12 @@ int main(int argc, char* argv[]) {
             case 's':
                 std::cout << "Enter a number between 0 and 8 (inclusive) to select data set:" << std::endl;
                 std::cin >> dataSelection;
-                if(setInputFiles(dataSelection) == 0)
-                    std::cout << "Data set 0" << dataSelection << " selected successfully." << std::endl;
+                while(dataSelection < 48 || dataSelection > 56){
+                    std::cout << "Error: please enter a number between 0 and 8, inclusive" << std::endl;
+                    std::cin >> dataSelection;
+                }
+                setInputFiles(dataSelection);
+                std::cout << "Data set 0" << dataSelection << " selected successfully." << std::endl;
                 break;
             case 'a':
                 traditionalKnapsack();
@@ -54,11 +58,7 @@ int main(int argc, char* argv[]) {
     return 0;
 }
 
-int setInputFiles(char selection){
-    if(selection < 48 || selection > 56){
-        std::cout << "Error: please enter a number between 0 and 8, inclusive" << std::endl;
-        return -1;
-    }
+void setInputFiles(char selection){
 
     char* dSet = &selection;
     dataSetNum = strtol(dSet, nullptr, 10);
@@ -76,8 +76,6 @@ int setInputFiles(char selection){
     filenames[1] = wName.str();
     filenames[2] = cName.str();
 
-
-    return 0;
 }
 
 void traditionalKnapsack(){
@@ -91,9 +89,41 @@ void traditionalKnapsack(){
 
     std::cout << "Testing Knapsack data structure..." << std::endl;
     std::cout << "Data set: 0" << sack.getDataSet() << std::endl;
-    std::cout << "Number of entries in values vector: " << sack.getValues().size() << std::endl;
-    std::cout << "Number of entries in weights vector: " << sack.getWeights().size() << std::endl;
+    std::cout << "Total number of items: " << sack.getValues().size() - 1 << std::endl;
     std::cout << "Capacity of Knapsack: " << sack.getCapacity() << std::endl;
+    std::cout << std::endl;
+
+    std::cout << "Computing optimal value for knapsack..." << std::endl;
+    std::cout << std::endl;
+    std::vector<int> values = sack.getValues();
+    std::vector<int> weights = sack.getWeights();
+
+    int n = values.size() - 1; // Account for vector starting at index 1
+    int capacity = sack.getCapacity();
+
+
+    int F[n+1][capacity+1];
+    // Zero out top row and leftmost column
+    for(int i = 0; i <= n; i++)
+        F[i][0] = 0;
+    for(int j = 0; j <= capacity; j++)
+        F[0][j] = 0;
+
+    // Populate the table
+    for(int i = 1; i <= n; i++){
+        for(int j = 1; j <= capacity; j++){
+            if(j - weights[i] < 0){
+                // Not picked
+                F[i][j] = F[i-1][j];
+            } else {
+                // Picked
+                F[i][j] = std::max(F[i-1][j], values[i] + F[i-1][j - weights[i]]);
+            }
+        }
+    }
+
+    std::cout << "Optimal value for knapsack: " << F[n][capacity] << std::endl;
+
 }
 
 void spaceEfficientKnapsack() {

@@ -3,6 +3,10 @@
 Knapsack::Knapsack(std::string filenames[], int dataSetNum) {
     std::ifstream inStream;
 
+    // Set all vectors to start at index 1 (for consistency)
+    values.push_back(-1);
+    weights.push_back(-1);
+
     // Set data set number
     dataSet = dataSetNum;
 
@@ -18,8 +22,10 @@ Knapsack::Knapsack(std::string filenames[], int dataSetNum) {
     if(inStream.is_open()){
         while(!inStream.eof()){
             inStream >> currentLine;
-            // std::cout << currentLine << std::endl;
-            values.push_back(currentLine);
+            if(!inStream.fail()){
+                // std::cout << currentLine << std::endl;
+                values.push_back(currentLine);
+            }
         }
     } else {
         std::cout << "ERROR: failed to open " << filenames[0] << std::endl;
@@ -34,8 +40,11 @@ Knapsack::Knapsack(std::string filenames[], int dataSetNum) {
     if(inStream.is_open()){
         while(!inStream.eof()){
             inStream >> currentLine;
-            // std::cout << currentLine << std::endl;
-            weights.push_back(currentLine);
+            if(!inStream.fail()){
+                // std::cout << currentLine << std::endl;
+                weights.push_back(currentLine);
+            }
+
         }
     } else {
         std::cout << "ERROR: failed to open " << filenames[0] << std::endl;
