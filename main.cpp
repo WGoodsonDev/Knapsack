@@ -22,11 +22,11 @@ int main(int argc, char* argv[]) {
 
     std::string fileChoice = "NONE";
 
-    std::cout << "Knapsack Solver\nby Erik Brownell and Warren Goodson\n\n";
+    std::cout << "Knapsack Solver\nby Warren Goodson and Erik Brownell\n\n";
     while(choice != 'q') {
         choice = '0';
         std::cout << "--------------------------------------------" << std::endl;
-        std::cout << "Options: (s) Set Input Files, (a) Traditional DP Approach, (b) Space Efficient DP, (c) Greedy Approach (built-in sort), (d) Greedy Approach (max heap), (e) Comparison, (q) Quit\n";
+        std::cout << "Options: (s) Set Input Files (do this first), (a) Traditional DP Approach, (b) Space Efficient DP,\n\t(c) Greedy Approach (built-in sort), (d) Greedy Approach (max heap), (e) Comparison, (q) Quit\n";
         std::cin >> choice;
 
         char dataSelection = ' ';
