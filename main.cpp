@@ -5,11 +5,14 @@
 #include <ctime>
 #include <chrono>
 #include <iomanip>
+#include <algorithm>
 #include "Knapsack.h"
+#include "HashTable.h"
 
 void setInputFiles(char selection);
 void traditionalKnapsack();
 void spaceEfficientKnapsack();
+int MFKnapsack(int i, int j, std::vector<int> &values, std::vector<int> &weights, HashTable *hTable);
 void greedyBuiltInSort();
 void greedyMaxHeap();
 void compare();
@@ -85,21 +88,21 @@ void traditionalKnapsack(){
     }
 
 
-    Knapsack sack = Knapsack(filenames, dataSetNum);
+    Knapsack kSack = Knapsack(filenames, dataSetNum);
 
     std::cout << "Testing Knapsack data structure..." << std::endl;
-    std::cout << "Data set: 0" << sack.getDataSet() << std::endl;
-    std::cout << "Total number of items: " << sack.getValues().size() - 1 << std::endl;
-    std::cout << "Capacity of Knapsack: " << sack.getCapacity() << std::endl;
+    std::cout << "Data set: 0" << kSack.getDataSet() << std::endl;
+    std::cout << "Total number of items: " << kSack.getValues().size() - 1 << std::endl;
+    std::cout << "Capacity of Knapsack: " << kSack.getCapacity() << std::endl;
     std::cout << std::endl;
 
     std::cout << "Computing optimal value for knapsack..." << std::endl;
     std::cout << std::endl;
-    std::vector<int> values = sack.getValues();
-    std::vector<int> weights = sack.getWeights();
+    std::vector<int> values = kSack.getValues();
+    std::vector<int> weights = kSack.getWeights();
 
-    int n = values.size() - 1; // Account for vector starting at index 1
-    int capacity = sack.getCapacity();
+    int n = (int)values.size() - 1; // Account for vector starting at index 1
+    int capacity = kSack.getCapacity();
 
 
     int F[n+1][capacity+1];
@@ -122,7 +125,7 @@ void traditionalKnapsack(){
         }
     }
 
-    std::cout << "Optimal value for knapsack: " << F[n][capacity] << std::endl;
+    std::cout << "Traditional Dynamic Programming optimal value: " << F[n][capacity] << std::endl;
 
     // Backtrack to find the optimal subset
     std::vector<int> optimalSubset;
@@ -139,8 +142,8 @@ void traditionalKnapsack(){
         }
     }
 
-    std::cout << "Optimal subset: {";
-    for(int a = optimalSubset.size() - 1; a > 0 ; a--){
+    std::cout << "Traditional Dynamic Programming optimal subset: {";
+    for(int a = (int)optimalSubset.size() - 1; a > 0 ; a--){
         std::cout << optimalSubset[a] << ", ";
     }
     std::cout << optimalSubset[0] << "}" << std::endl;
@@ -149,7 +152,69 @@ void traditionalKnapsack(){
 }
 
 void spaceEfficientKnapsack() {
+    if(filenames[0].empty()){
+        std::cout << "Please select a data set (s)" << std::endl;
+        return;
+    }
 
+    Knapsack kSack = Knapsack(filenames, dataSetNum);
+
+    std::cout << "Testing Knapsack data structure..." << std::endl;
+    std::cout << "Data set: 0" << kSack.getDataSet() << std::endl;
+    std::cout << "Total number of items: " << kSack.getValues().size() - 1 << std::endl;
+    std::cout << "Capacity of Knapsack: " << kSack.getCapacity() << std::endl;
+    std::cout << std::endl;
+
+    std::cout << "Computing optimal value for knapsack..." << std::endl;
+    std::cout << std::endl;
+    std::vector<int> values = kSack.getValues();
+    std::vector<int> weights = kSack.getWeights();
+
+    int n = (int)values.size() - 1; // Account for vector starting at index 1
+    int capacity = kSack.getCapacity();
+
+    HashTable hTable = HashTable(n, capacity);
+
+    // Use MFKnapsack to get optimal value of subset
+
+    int optimalValue = MFKnapsack(n, capacity, values, weights, &hTable);
+    std::cout << "Space-efficient Dynamic Programming optimal value: " << optimalValue << std::endl;
+
+    // Backtrack to find the optimal subset
+    std::vector<int> optimalSubset;
+
+    int i = n;
+    int j = capacity;
+    while(i >= 0 && j > 0){
+        if((j - weights[i] >= 0) && (values[i] + hTable.hashGet(i-1, j-weights[i]) > hTable.hashGet(i-1, j))){
+            optimalSubset.push_back(i);
+            j -= weights[i];
+            i--;
+        } else {
+            i--;
+        }
+    }
+
+    std::cout << "Space-efficient Dynamic Programming optimal subset: {";
+    for(int a = (int)optimalSubset.size() - 1; a > 0 ; a--){
+        std::cout << optimalSubset[a] << ", ";
+    }
+    std::cout << optimalSubset[0] << "}" << std::endl;
+
+}
+
+int MFKnapsack(int i, int j, std::vector<int> &values, std::vector<int> &weights, HashTable *hTable) {
+    if(hTable->hashGet(i, j) < 0){
+        int value;
+        if(j < weights[i]){
+            value = MFKnapsack(i - 1, j, values, weights, hTable);
+        }
+        else{
+            value = std::max(MFKnapsack(i - 1, j, values, weights, hTable), values[i] + MFKnapsack(i - 1, j - weights[i], values, weights, hTable));
+        }
+        hTable->hashInsert(i, j, value);
+    }
+    return hTable->hashGet(i, j);
 }
 
 void greedyBuiltInSort(){
@@ -164,3 +229,5 @@ void compare() {
 
 
 }
+
+
