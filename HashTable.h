@@ -12,9 +12,13 @@
 struct TableNode{
     TableNode(){
         value = -1;
+        i = -1;
+        j = -1;
         next = nullptr;
     }
     int value;
+    int i;
+    int j;
     TableNode * next;
 };
 
@@ -22,6 +26,7 @@ class HashTable {
 
 public:
     HashTable(int n, int w);
+    ~HashTable();
     void hashInsert(int i, int j, int value);
     int hashGet(int i, int j);
 
@@ -29,7 +34,7 @@ public:
 private:
     int numObjects;
     int capacity;
-    std::vector<TableNode> hTable;
+    std::vector<TableNode*> hTable;
 
     int hashHelper(int i, int j);
 
