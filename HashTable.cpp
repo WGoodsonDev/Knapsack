@@ -3,6 +3,7 @@
 //
 
 #include <cmath>
+#include <sstream>
 #include "HashTable.h"
 
 HashTable::HashTable(int n, int w): numObjects(n), capacity(w) {
@@ -62,9 +63,40 @@ int HashTable::hashGet(int i, int j) {
 }
 
 int HashTable::hashHelper(int i, int j) {
-    int numBitsN = std::ceil(std::log2(numObjects));
-    int numBitsW = std::ceil(std::log2(capacity));
-    return 0;
+    int numBitsN = (int)std::ceil(std::log2(numObjects));
+    int numBitsW = (int)std::ceil(std::log2(capacity));
+
+    std::string iBinary;
+    std::string jBinary;
+    int iTemp = i;
+    int jTemp = j;
+    int remainder = 0;
+
+    while(iTemp > 0){
+        remainder = iTemp%2;
+        iTemp /= 2;
+
+        if(remainder == 0){
+            iBinary += "0";
+        } else {
+            iBinary += "1";
+        }
+    }
+    while(jTemp > 0){
+        remainder = jTemp%2;
+        jTemp /= 2;
+
+        if(remainder == 0){
+            jBinary += "0";
+        } else {
+            jBinary += "1";
+        }
+    }
+
+    std::string rIJ = "1" + iBinary + jBinary;
+    int rIJInt = std::stoi(rIJ, nullptr, 2);
+
+    return (int)(rIJInt % hTable.size());
 }
 
 HashTable::~HashTable() {

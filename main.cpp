@@ -49,7 +49,7 @@ int main(int argc, char* argv[]) {
                 traditionalKnapsack();
                 break;
             case 'b':
-
+                spaceEfficientKnapsack();
                 break;
             case 'c':
 
@@ -204,13 +204,15 @@ void spaceEfficientKnapsack() {
 }
 
 int MFKnapsack(int i, int j, std::vector<int> &values, std::vector<int> &weights, HashTable *hTable) {
-    if(hTable->hashGet(i, j) < 0){
+    if(hTable->hashGet(i, j) < 0 && i > 0){
         int value;
         if(j < weights[i]){
             value = MFKnapsack(i - 1, j, values, weights, hTable);
         }
         else{
-            value = std::max(MFKnapsack(i - 1, j, values, weights, hTable), values[i] + MFKnapsack(i - 1, j - weights[i], values, weights, hTable));
+            int a = MFKnapsack(i - 1, j, values, weights, hTable);
+            int b = values[i] + MFKnapsack(i - 1, j - weights[i], values, weights, hTable);
+            value = std::max(a, b);
         }
         hTable->hashInsert(i, j, value);
     }

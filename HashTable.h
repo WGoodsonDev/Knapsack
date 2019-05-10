@@ -31,6 +31,7 @@ public:
     int hashGet(int i, int j);
 
 
+
 private:
     int numObjects;
     int capacity;
