@@ -9,6 +9,7 @@
 #include <algorithm>
 #include "Knapsack.h"
 #include "HashTable.h"
+#include "MaxHeap.h"
 
 void setInputFiles(char selection);
 void traditionalKnapsack();
@@ -58,6 +59,8 @@ int main(int argc, char* argv[]) {
             case 'c':
                 greedyBuiltInSort();
                 break;
+            case 'd':
+                greedyMaxHeap();
             case 'q':
                 break;
             default:
@@ -269,7 +272,8 @@ void greedyBuiltInSort(){
         if ((tmp_cap + weights[i]) < capacity){
             tmp_cap += weights[i];
             total_val += values[i];
-            results.push_back(i);
+            if(i > 0)
+                results.push_back(i);
         }else
             break;
     }
@@ -287,7 +291,70 @@ void greedyBuiltInSort(){
 }
 
 void greedyMaxHeap(){
+    if (filenames[0].empty()){
+        std::cout << "Please select a data set (s)" << std::endl;
+        return;
+    }
 
+    Knapsack kSack = Knapsack(filenames, dataSetNum);
+
+    std::cout << "Testing Knapsack data structure..." << std::endl;
+    std::cout << "Data set: 0" << kSack.getDataSet() << std::endl;
+    std::cout << "Total number of items: " << kSack.getValues().size() - 1 << std::endl;
+    std::cout << "Capacity of Knapsack: " << kSack.getCapacity() << std::endl;
+    std::cout << std::endl;
+
+    std::cout << "Computing optimal value for knapsack..." << std::endl;
+    std::cout << std::endl;
+    std::vector<int> values = kSack.getValues();
+    std::vector<int> weights = kSack.getWeights();
+
+    std::vector<std::pair<float, int>> ratios;
+    std::vector<int> results;
+    results.resize(1);
+
+    int n = (int)values.size() - 1; // Account for vector starting at index 1
+    int capacity = kSack.getCapacity();
+
+    // insert into ratios map
+    ratios.emplace_back(std::pair<float, int>(-1.0f, -1));
+    for (int i = 1; i < n+1; i++){
+        float f = (float)values[i] / weights[i];
+        ratios.emplace_back(std::pair<float, int>(f,i));
+    }
+
+    // Build max heap from ratios
+    MaxHeap mHeap = MaxHeap(ratios);
+    for(int i = 0; i < mHeap.size(); i++){
+        std::pair<float, int> current = mHeap.getDeleteMax();
+        std::cout << "Ratio: " << current.first << ", i: " << current.second << std::endl;
+    }
+
+
+    // calculate subset
+    float tmp_cap = 0;
+    int total_val = 0;
+    for (auto &r : ratios){
+        int i = r.second;
+        if ((tmp_cap + weights[i]) < capacity){
+            tmp_cap += weights[i];
+            total_val += values[i];
+            if(i > 0)
+                results.push_back(i);
+        }else
+            break;
+    }
+    std::sort(results.begin(), results.end());
+
+    // print
+    std::cout << "Greedy Approach Optimal value: " << total_val << std::endl;
+    std::cout << "Greedy Approach Optimal subset: {";
+    for (int i = 0; i < results.size()-1; i++){
+        std::cout << results[i] << ", ";
+    }
+    std::cout << results[results.size()-1] << "}" << std::endl;
+    std::cout << "Greedy Approach Time Taken: <INSERT_TIME>" << std::endl;
+    std::cout << std::endl;
 }
 
 void compare() {
