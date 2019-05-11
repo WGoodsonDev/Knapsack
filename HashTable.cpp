@@ -6,12 +6,8 @@
 #include <sstream>
 #include "HashTable.h"
 
-HashTable::HashTable(int n, int w): numObjects(n), capacity(w) {
-    hTable.resize((unsigned long)n * 2);
-//    for(int i = 0; i < n * 2; i++){
-//        TableNode * node = new TableNode();
-//        hTable[i] = node;
-//    }
+HashTable::HashTable(int n, int w): numObjects(n), capacity(w), numInsertions(0) {
+    hTable.resize((unsigned long)w * 2);
     // Need to initialize (i, 0) and (0, j) rows to all 0's
     for(int i = 0; i < n; i++)
         hashInsert(i, 0, 0);
@@ -20,6 +16,7 @@ HashTable::HashTable(int n, int w): numObjects(n), capacity(w) {
 
 }
 
+// Insert (i, j, value) into hash table
 void HashTable::hashInsert(int i, int j, int value) {
     int index = hashHelper(i, j);
     TableNode *current = hTable[index];
@@ -45,9 +42,10 @@ void HashTable::hashInsert(int i, int j, int value) {
         newNode->j = j;
         current->next = newNode;
     }
-
+    numInsertions++;
 }
 
+// Get value from hash table. If entry at hashed value is empty, return -1
 int HashTable::hashGet(int i, int j) {
     int index = hashHelper(i, j);
     TableNode *current = hTable[index];
@@ -71,6 +69,7 @@ int HashTable::hashGet(int i, int j) {
     }
 }
 
+// The actual hash function
 int HashTable::hashHelper(int i, int j) {
     int numBitsN = (int)std::ceil(std::log2(numObjects));
     int numBitsW = (int)std::ceil(std::log2(capacity));
@@ -81,6 +80,7 @@ int HashTable::hashHelper(int i, int j) {
     int jTemp = j;
     int remainder = 0;
 
+    // Construct binary representation
     while(iTemp > 0){
         remainder = iTemp%2;
         iTemp /= 2;
@@ -91,6 +91,11 @@ int HashTable::hashHelper(int i, int j) {
             iBinary += "1";
         }
     }
+    // Pad with leading 0s
+    while(iBinary.size() < numBitsN)
+        iBinary += "0";
+
+    // Construct binary representation
     while(jTemp > 0){
         remainder = jTemp%2;
         jTemp /= 2;
@@ -101,6 +106,12 @@ int HashTable::hashHelper(int i, int j) {
             jBinary += "1";
         }
     }
+    // Pad with leading 0s
+    while(jBinary.size() < numBitsW)
+        jBinary += "0";
+
+    std::reverse(iBinary.begin(), iBinary.end());
+    std::reverse(jBinary.begin(), jBinary.end());
 
     std::string rIJ = "1" + iBinary + jBinary;
     int rIJInt = std::stoi(rIJ, nullptr, 2);
@@ -117,9 +128,18 @@ HashTable::~HashTable() {
 int HashTable::countCollisions() {
     int colCount = 0;
     for(auto &node : hTable){
-        if(node)
-            colCount++;
+        auto current = node;
+        if(current){
+            while(current->next){
+                colCount++;
+                current = current->next;
+            }
+        }
     }
     return colCount;
+}
+
+int HashTable::getNumInsertions() const {
+    return numInsertions;
 }
 

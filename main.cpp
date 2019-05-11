@@ -25,11 +25,14 @@ int main(int argc, char* argv[]) {
 
     std::string fileChoice = "NONE";
 
-    std::cout << "Knapsack Solver\nby Warren Goodson and Erik Brownell\n\n";
+    std::cout << "--------------------------------------------" << std::endl;
+    std::cout << "Knapsack Solver\n\nby Warren Goodson and Erik Brownell\n";
     while(choice != 'q') {
         choice = '0';
         std::cout << "--------------------------------------------" << std::endl;
-        std::cout << "Options: (s) Set Input Files (do this first), (a) Traditional DP Approach, (b) Space Efficient DP,\n\t(c) Greedy Approach (built-in sort), (d) Greedy Approach (max heap), (e) Comparison, (q) Quit\n";
+        std::cout << "Options:\n\n(s) Set Input Files (do this first)\n\n";
+        std::cout << "(a) Traditional DP Approach\n(b) Space Efficient DP\n\n";
+        std::cout << "(c) Greedy Approach (built-in sort)\n(d) Greedy Approach (max heap)\n\n(e) Comparison\n\n(q) Quit\n";
         std::cin >> choice;
 
         char dataSelection = ' ';
@@ -180,8 +183,10 @@ void spaceEfficientKnapsack() {
     // Use MFKnapsack to get optimal value of subset
 
     int optimalValue = MFKnapsack(n, capacity, values, weights, &hTable);
-    std::cout << "Space-efficient Dynamic Programming optimal value: " << optimalValue << std::endl;
+    std::cout << "Space-efficient Dynamic Programming optimal value: " << optimalValue << std::endl << std::endl;
 
+    std::cout << "n * W: " << n * capacity << std::endl;
+    std::cout << "# of insertions: " << hTable.getNumInsertions() << std::endl;
     std::cout << "# of collisions: " << hTable.countCollisions() << std::endl;
     std::cout << "Size of table: " << hTable.size() << std::endl;
 
@@ -191,11 +196,7 @@ void spaceEfficientKnapsack() {
     int i = n;
     int j = capacity;
     while(i >= 0 && j > 0){
-        int a = j - weights[i];
-        int b = values[i];
-        int d = hTable.hashGet(i-1, j-weights[i]);
-        int c = hTable.hashGet(i-1, j);
-        if((a >= 0) && (b + d > c)){
+        if((j - weights[i] >= 0) && (values[i] + hTable.hashGet(i-1, j-weights[i]) > hTable.hashGet(i-1, j))){
             optimalSubset.push_back(i);
             j -= weights[i];
             i--;

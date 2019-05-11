@@ -7,6 +7,7 @@
 
 #include <vector>
 #include <string>
+#include <algorithm>
 
 // template <typename  T>
 struct TableNode{
@@ -31,12 +32,15 @@ public:
     int hashGet(int i, int j);
 
     int countCollisions();
+    int getNumInsertions() const;
     int size(){ return hTable.size();}
 
 private:
     int numObjects;
     int capacity;
     std::vector<TableNode*> hTable;
+
+    int numInsertions;
 
     int hashHelper(int i, int j);
 
