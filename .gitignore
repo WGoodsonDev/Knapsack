@@ -35,3 +35,7 @@
 cmake-build-debug
 CMakeLists.txt
 .idea
+
+*.dat
+
+/pt3

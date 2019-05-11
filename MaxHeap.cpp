@@ -19,10 +19,10 @@ void MaxHeap::heapBottomUp() {
         int k = i;
         std::pair<float, int> v = heap[k];
         bool isHeap = false;
-        while(!isHeap && 2 * k <= heapSize){
+        while(!isHeap && 2 * k < heapSize){
             int j = 2 * k;
             // There are 2 children
-            if(j < heapSize - 1){
+            if(j < heapSize){
                 if(heap[j] < heap[j + 1])
                     j++;
             }
