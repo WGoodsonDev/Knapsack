@@ -30,7 +30,8 @@ public:
     void hashInsert(int i, int j, int value);
     int hashGet(int i, int j);
 
-
+    int countCollisions();
+    int size(){ return hTable.size();}
 
 private:
     int numObjects;

@@ -12,6 +12,12 @@ HashTable::HashTable(int n, int w): numObjects(n), capacity(w) {
 //        TableNode * node = new TableNode();
 //        hTable[i] = node;
 //    }
+    // Need to initialize (i, 0) and (0, j) rows to all 0's
+    for(int i = 0; i < n; i++)
+        hashInsert(i, 0, 0);
+    for(int j = 0; j < w + 1; j++)
+        hashInsert(0, j, 0);
+
 }
 
 void HashTable::hashInsert(int i, int j, int value) {
@@ -28,8 +34,8 @@ void HashTable::hashInsert(int i, int j, int value) {
     else{
         // Get to end of linked list and insert
         while(current->next){
-            // If current node's value is equal to the one we're adding, nothing to do
-            if(current->value == value)
+            // If current node's (i, j) pair is equal to the one we're adding, nothing to do
+            if(current->i == i && current->j == j)
                 return;
             current = current->next;
         }
@@ -59,6 +65,9 @@ int HashTable::hashGet(int i, int j) {
         }
         if(current->i == i && current->j == j)
             return current->value;
+        else{
+            return -1;
+        }
     }
 }
 
@@ -103,5 +112,14 @@ HashTable::~HashTable() {
     for(auto &entry : hTable){
         delete(entry);
     }
+}
+
+int HashTable::countCollisions() {
+    int colCount = 0;
+    for(auto &node : hTable){
+        if(node)
+            colCount++;
+    }
+    return colCount;
 }
 

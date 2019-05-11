@@ -54,6 +54,8 @@ int main(int argc, char* argv[]) {
             case 'c':
 
                 break;
+            case 'q':
+                break;
             default:
                 std::cout << "Please choose either (a), (b), (c), (d), (e), or (s)\n";
         }
@@ -180,13 +182,20 @@ void spaceEfficientKnapsack() {
     int optimalValue = MFKnapsack(n, capacity, values, weights, &hTable);
     std::cout << "Space-efficient Dynamic Programming optimal value: " << optimalValue << std::endl;
 
+    std::cout << "# of collisions: " << hTable.countCollisions() << std::endl;
+    std::cout << "Size of table: " << hTable.size() << std::endl;
+
     // Backtrack to find the optimal subset
     std::vector<int> optimalSubset;
 
     int i = n;
     int j = capacity;
     while(i >= 0 && j > 0){
-        if((j - weights[i] >= 0) && (values[i] + hTable.hashGet(i-1, j-weights[i]) > hTable.hashGet(i-1, j))){
+        int a = j - weights[i];
+        int b = values[i];
+        int d = hTable.hashGet(i-1, j-weights[i]);
+        int c = hTable.hashGet(i-1, j);
+        if((a >= 0) && (b + d > c)){
             optimalSubset.push_back(i);
             j -= weights[i];
             i--;
@@ -204,8 +213,8 @@ void spaceEfficientKnapsack() {
 }
 
 int MFKnapsack(int i, int j, std::vector<int> &values, std::vector<int> &weights, HashTable *hTable) {
+    int value;
     if(hTable->hashGet(i, j) < 0 && i > 0){
-        int value;
         if(j < weights[i]){
             value = MFKnapsack(i - 1, j, values, weights, hTable);
         }
