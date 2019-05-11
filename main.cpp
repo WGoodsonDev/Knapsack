@@ -69,8 +69,10 @@ int main(int argc, char* argv[]) {
                 break;
             case 'd':
                 greedyMaxHeap();
+                break;
             case 'e':
                 compare();
+                break;
             case 'q':
                 break;
             default:
@@ -264,6 +266,7 @@ void greedyBuiltInSort(){
 
     std::map<float, int, std::greater<float> > ratios;
     std::vector<int> results;
+    results.resize(1);
 
     int n = (int)values.size() - 1; // Account for vector starting at index 1
     int capacity = kSack.getCapacity();
@@ -272,6 +275,7 @@ void greedyBuiltInSort(){
     for (int i = 1; i < n+1; i++){
         float f = (float)values[i] / weights[i];
         ratios.insert(std::pair<float, int>(f,i));
+        std::cout << "Ratio: " << f << ", i: " << i << std::endl;
     }
 
     // calculate subset
@@ -290,13 +294,13 @@ void greedyBuiltInSort(){
     std::sort(results.begin(), results.end());
 
     // print
-    std::cout << "Greedy Approach Optimal value: " << total_val << std::endl;
-    std::cout << "Greedy Approach Optimal subset: {";
+    std::cout << "Greedy Approach (built-in sort) Optimal value: " << total_val << std::endl;
+    std::cout << "Greedy Approach (built-in sort) Optimal subset: {";
     for (int i = 0; i < results.size()-1; i++){
         std::cout << results[i] << ", ";
     }
     std::cout << results[results.size()-1] << "}" << std::endl;
-    std::cout << "Greedy Approach Time Taken: <INSERT_TIME>" << std::endl;
+    std::cout << "Greedy Approach (built-in sort) Time Taken: <INSERT_TIME>" << std::endl;
     std::cout << std::endl;
 }
 
@@ -326,16 +330,16 @@ void greedyMaxHeap(){
     int n = (int)values.size() - 1; // Account for vector starting at index 1
     int capacity = kSack.getCapacity();
 
-    // insert into ratios map
+    // insert into ratios vector
     ratios.emplace_back(std::pair<float, int>(-1.0f, -1));
-    for (int i = 1; i < n+1; i++){
+    for (int i = 1; i <= n; i++){
         float f = (float)values[i] / weights[i];
         ratios.emplace_back(std::pair<float, int>(f,i));
     }
 
     // Build max heap from ratios
     MaxHeap mHeap = MaxHeap(ratios);
-    for(int i = 0; i < mHeap.size(); i++){
+    for(int i = 0; i < n; i++){
         std::pair<float, int> current = mHeap.getDeleteMax();
         std::cout << "Ratio: " << current.first << ", i: " << current.second << std::endl;
     }
@@ -344,7 +348,7 @@ void greedyMaxHeap(){
     // calculate subset
     float tmp_cap = 0;
     int total_val = 0;
-    for (auto &r : ratios){
+    for (auto& r: ratios){
         int i = r.second;
         if ((tmp_cap + weights[i]) < capacity){
             tmp_cap += weights[i];
@@ -356,14 +360,15 @@ void greedyMaxHeap(){
     }
     std::sort(results.begin(), results.end());
 
+
     // print
-    std::cout << "Greedy Approach Optimal value: " << total_val << std::endl;
-    std::cout << "Greedy Approach Optimal subset: {";
+    std::cout << "Greedy Approach (max heap) Optimal value: " << total_val << std::endl;
+    std::cout << "Greedy Approach (max heap) Optimal subset: {";
     for (int i = 0; i < results.size()-1; i++){
         std::cout << results[i] << ", ";
     }
     std::cout << results[results.size()-1] << "}" << std::endl;
-    std::cout << "Greedy Approach Time Taken: <INSERT_TIME>" << std::endl;
+    std::cout << "Greedy Approach (max heap) Time Taken: <INSERT_TIME>" << std::endl;
     std::cout << std::endl;
 }
 
@@ -373,7 +378,7 @@ void compare() {
  *  we want to do this but we need to run each function and put the output into a file
  *  so we can use it for the graphs.  I know someone on canvas asked if we
  *  need to create the graph in the program or not, at this time the instructor
- *  has not responded. I think it could be easier to simply to make the graphs ourself,
+ *  has not responded. I think it could be easier to simply to make the graphs ourselves,
  *  otherwise we may need to change the functions we have in main to pass by reference
  *  in order to grab the data we need. If you have a better idea let me know.
  */

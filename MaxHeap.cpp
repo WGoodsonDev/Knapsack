@@ -14,12 +14,12 @@ std::pair<float, int> MaxHeap::getMax() {
 }
 
 void MaxHeap::heapBottomUp() {
-    float heapSize = (float)heap.size();
+    float heapSize = (float)heap.size() - 1;
     for(int i = (int)std::floor(heapSize / 2.0f); i > 0; i--){
         int k = i;
         std::pair<float, int> v = heap[k];
         bool isHeap = false;
-        while(!isHeap && 2 * k < heapSize){
+        while(!isHeap && 2 * k <= heapSize){
             int j = 2 * k;
             // There are 2 children
             if(j < heapSize){
