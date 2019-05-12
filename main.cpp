@@ -116,9 +116,9 @@ void traditionalKnapsack(){
     Knapsack kSack = Knapsack(filenames, dataSetNum);
 
 //    std::cout << "Testing Knapsack data structure..." << std::endl;
-//    std::cout << "Data set: 0" << kSack.getDataSet() << std::endl;
-//    std::cout << "Total number of items: " << kSack.getValues().size() - 1 << std::endl;
-//    std::cout << "Capacity of Knapsack: " << kSack.getCapacity() << std::endl;
+    std::cout << "Data set: 0" << kSack.getDataSet() << std::endl;
+    std::cout << "Total number of items: " << kSack.getValues().size() - 1 << std::endl;
+    std::cout << "Capacity of Knapsack: " << kSack.getCapacity() << std::endl;
 //    std::cout << std::endl;
 
     auto startTime = std::chrono::high_resolution_clock::now();
@@ -193,9 +193,9 @@ void spaceEfficientKnapsack() {
     Knapsack kSack = Knapsack(filenames, dataSetNum);
 
 //    std::cout << "Testing Knapsack data structure..." << std::endl;
-//    std::cout << "Data set: 0" << kSack.getDataSet() << std::endl;
-//    std::cout << "Total number of items: " << kSack.getValues().size() - 1 << std::endl;
-//    std::cout << "Capacity of Knapsack: " << kSack.getCapacity() << std::endl;
+    std::cout << "Data set: 0" << kSack.getDataSet() << std::endl;
+    std::cout << "Total number of items: " << kSack.getValues().size() - 1 << std::endl;
+    std::cout << "Capacity of Knapsack: " << kSack.getCapacity() << std::endl;
 //    std::cout << std::endl;
 
     auto startTime = std::chrono::high_resolution_clock::now();
@@ -217,10 +217,9 @@ void spaceEfficientKnapsack() {
     int optimalValue = MFKnapsack(n, capacity, values, weights, &hTable);
     std::cout << "Space-efficient Dynamic Programming optimal value: " << optimalValue << std::endl << std::endl;
 
-    std::cout << "n * W: " << n * capacity << std::endl;
-    std::cout << "# of insertions: " << hTable.getNumInsertions() << std::endl;
-    std::cout << "# of collisions: " << hTable.countCollisions() << std::endl;
-    std::cout << "Size of table: " << hTable.size() << std::endl;
+//    std::cout << "# of insertions: " << hTable.getNumInsertions() << std::endl;
+//    std::cout << "# of collisions: " << hTable.countCollisions() << std::endl;
+//    std::cout << "Size of table: " << hTable.size() << std::endl;
 
     // Backtrack to find the optimal subset
     std::vector<int> optimalSubset;
@@ -278,9 +277,9 @@ void greedyBuiltInSort(){
     Knapsack kSack = Knapsack(filenames, dataSetNum);
 
 //    std::cout << "Testing Knapsack data structure..." << std::endl;
-//    std::cout << "Data set: 0" << kSack.getDataSet() << std::endl;
-//    std::cout << "Total number of items: " << kSack.getValues().size() - 1 << std::endl;
-//    std::cout << "Capacity of Knapsack: " << kSack.getCapacity() << std::endl;
+    std::cout << "Data set: 0" << kSack.getDataSet() << std::endl;
+    std::cout << "Total number of items: " << kSack.getValues().size() - 1 << std::endl;
+    std::cout << "Capacity of Knapsack: " << kSack.getCapacity() << std::endl;
 //    std::cout << std::endl;
 
     auto startTime = std::chrono::high_resolution_clock::now();
@@ -343,9 +342,9 @@ void greedyMaxHeap(){
     Knapsack kSack = Knapsack(filenames, dataSetNum);
 
 //    std::cout << "Testing Knapsack data structure..." << std::endl;
-//    std::cout << "Data set: 0" << kSack.getDataSet() << std::endl;
-//    std::cout << "Total number of items: " << kSack.getValues().size() - 1 << std::endl;
-//    std::cout << "Capacity of Knapsack: " << kSack.getCapacity() << std::endl;
+    std::cout << "Data set: 0" << kSack.getDataSet() << std::endl;
+    std::cout << "Total number of items: " << kSack.getValues().size() - 1 << std::endl;
+    std::cout << "Capacity of Knapsack: " << kSack.getCapacity() << std::endl;
 //    std::cout << std::endl;
 
     auto startTime = std::chrono::high_resolution_clock::now();
