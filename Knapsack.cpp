@@ -17,7 +17,7 @@ Knapsack::Knapsack(std::string filenames[], int dataSetNum) {
 
     int currentLine;
     // Get values
-    std::cout << "Getting values..." << std::endl;
+//    std::cout << "Getting values..." << std::endl;
     inStream.open(filenames[0], std::ios::in);
     if(inStream.is_open()){
         while(!inStream.eof()){
@@ -35,7 +35,7 @@ Knapsack::Knapsack(std::string filenames[], int dataSetNum) {
     inStream.close();
 
     // Get weights
-    std::cout << "Getting weights..." << std::endl;
+//    std::cout << "Getting weights..." << std::endl;
     inStream.open(filenames[1], std::ios::in);
     if(inStream.is_open()){
         while(!inStream.eof()){
@@ -54,7 +54,7 @@ Knapsack::Knapsack(std::string filenames[], int dataSetNum) {
     inStream.close();
 
     // Get capacity
-    std::cout << "Getting capacity..." << std::endl;
+//    std::cout << "Getting capacity..." << std::endl;
     inStream.open(filenames[2], std::ios::in);
     if(inStream.is_open()){
         inStream >> capacity;

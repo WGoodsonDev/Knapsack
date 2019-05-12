@@ -19,6 +19,7 @@ int MFKnapsack(int i, int j, std::vector<int> &values, std::vector<int> &weights
 void greedyBuiltInSort();
 void greedyMaxHeap();
 void compare();
+void allApproaches();
 void CreatePlot(std::string input_file,
                 std::string output_file,
                 int row1, int row2, int xtic, int ytic,
@@ -42,7 +43,7 @@ int main(int argc, char* argv[]) {
         std::cout << "--------------------------------------------" << std::endl;
         std::cout << "Options:\n\n(s) Set Input Files (do this first)\n\n";
         std::cout << "(a) Traditional DP Approach\n(b) Space Efficient DP\n\n";
-        std::cout << "(c) Greedy Approach (built-in sort)\n(d) Greedy Approach (max heap)\n\n(e) Comparison\n\n(q) Quit\n";
+        std::cout << "(c) Greedy Approach (built-in sort)\n(d) Greedy Approach (max heap)\n\n(e) All Approaches\n(f) Compare\n\n(q) Quit\n";
         std::cin >> choice;
 
         char dataSelection = ' ';
@@ -71,6 +72,9 @@ int main(int argc, char* argv[]) {
                 greedyMaxHeap();
                 break;
             case 'e':
+                allApproaches();
+                break;
+            case 'f':
                 compare();
                 break;
             case 'q':
@@ -111,11 +115,13 @@ void traditionalKnapsack(){
 
     Knapsack kSack = Knapsack(filenames, dataSetNum);
 
-    std::cout << "Testing Knapsack data structure..." << std::endl;
-    std::cout << "Data set: 0" << kSack.getDataSet() << std::endl;
-    std::cout << "Total number of items: " << kSack.getValues().size() - 1 << std::endl;
-    std::cout << "Capacity of Knapsack: " << kSack.getCapacity() << std::endl;
-    std::cout << std::endl;
+//    std::cout << "Testing Knapsack data structure..." << std::endl;
+//    std::cout << "Data set: 0" << kSack.getDataSet() << std::endl;
+//    std::cout << "Total number of items: " << kSack.getValues().size() - 1 << std::endl;
+//    std::cout << "Capacity of Knapsack: " << kSack.getCapacity() << std::endl;
+//    std::cout << std::endl;
+
+    auto startTime = std::chrono::high_resolution_clock::now();
 
     std::cout << "Computing optimal value for knapsack..." << std::endl;
     std::cout << std::endl;
@@ -163,11 +169,17 @@ void traditionalKnapsack(){
         }
     }
 
+    auto endTime = std::chrono::high_resolution_clock::now();
+
+    auto elapsedTime = std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime);
+
     std::cout << "Traditional Dynamic Programming optimal subset: {";
     for(int a = (int)optimalSubset.size() - 1; a > 0 ; a--){
         std::cout << optimalSubset[a] << ", ";
     }
     std::cout << optimalSubset[0] << "}" << std::endl;
+
+    std::cout << "Traditional Dynamic Programming Time Taken: " << elapsedTime.count() << " microseconds" << std::endl;
 
 
 }
@@ -180,11 +192,13 @@ void spaceEfficientKnapsack() {
 
     Knapsack kSack = Knapsack(filenames, dataSetNum);
 
-    std::cout << "Testing Knapsack data structure..." << std::endl;
-    std::cout << "Data set: 0" << kSack.getDataSet() << std::endl;
-    std::cout << "Total number of items: " << kSack.getValues().size() - 1 << std::endl;
-    std::cout << "Capacity of Knapsack: " << kSack.getCapacity() << std::endl;
-    std::cout << std::endl;
+//    std::cout << "Testing Knapsack data structure..." << std::endl;
+//    std::cout << "Data set: 0" << kSack.getDataSet() << std::endl;
+//    std::cout << "Total number of items: " << kSack.getValues().size() - 1 << std::endl;
+//    std::cout << "Capacity of Knapsack: " << kSack.getCapacity() << std::endl;
+//    std::cout << std::endl;
+
+    auto startTime = std::chrono::high_resolution_clock::now();
 
     std::cout << "Computing optimal value for knapsack..." << std::endl;
     std::cout << std::endl;
@@ -221,11 +235,19 @@ void spaceEfficientKnapsack() {
         }
     }
 
+
+    auto endTime = std::chrono::high_resolution_clock::now();
+
+    auto elapsedTime = std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime);
+
+
     std::cout << "Space-efficient Dynamic Programming optimal subset: {";
     for(int a = (int)optimalSubset.size() - 1; a > 0 ; a--){
         std::cout << optimalSubset[a] << ", ";
     }
     std::cout << optimalSubset[0] << "}" << std::endl;
+
+    std::cout << "Space-efficient Dynamic Programming Time Taken: " << elapsedTime.count() << " microseconds" << std::endl;
 
 }
 
@@ -253,11 +275,13 @@ void greedyBuiltInSort(){
 
     Knapsack kSack = Knapsack(filenames, dataSetNum);
 
-    std::cout << "Testing Knapsack data structure..." << std::endl;
-    std::cout << "Data set: 0" << kSack.getDataSet() << std::endl;
-    std::cout << "Total number of items: " << kSack.getValues().size() - 1 << std::endl;
-    std::cout << "Capacity of Knapsack: " << kSack.getCapacity() << std::endl;
-    std::cout << std::endl;
+//    std::cout << "Testing Knapsack data structure..." << std::endl;
+//    std::cout << "Data set: 0" << kSack.getDataSet() << std::endl;
+//    std::cout << "Total number of items: " << kSack.getValues().size() - 1 << std::endl;
+//    std::cout << "Capacity of Knapsack: " << kSack.getCapacity() << std::endl;
+//    std::cout << std::endl;
+
+    auto startTime = std::chrono::high_resolution_clock::now();
 
     std::cout << "Computing optimal value for knapsack..." << std::endl;
     std::cout << std::endl;
@@ -274,7 +298,7 @@ void greedyBuiltInSort(){
     for (int i = 1; i < n+1; i++){
         float f = (float)values[i] / weights[i];
         ratios.insert(std::pair<float, int>(f,i));
-        std::cout << "Ratio: " << f << ", i: " << i << std::endl;
+//        std::cout << "Ratio: " << f << ", i: " << i << std::endl;
     }
 
     // calculate subset
@@ -291,6 +315,12 @@ void greedyBuiltInSort(){
     }
     std::sort(results.begin(), results.end());
 
+
+    auto endTime = std::chrono::high_resolution_clock::now();
+
+    auto elapsedTime = std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime);
+
+
     // print
     std::cout << "Greedy Approach (built-in sort) Optimal value: " << total_val << std::endl;
     std::cout << "Greedy Approach (built-in sort) Optimal subset: {";
@@ -298,7 +328,7 @@ void greedyBuiltInSort(){
         std::cout << results[i] << ", ";
     }
     std::cout << results[results.size()-1] << "}" << std::endl;
-    std::cout << "Greedy Approach (built-in sort) Time Taken: <INSERT_TIME>" << std::endl;
+    std::cout << "Greedy Approach (built-in sort) Time Taken: " << elapsedTime.count() << " microseconds" << std::endl;
     std::cout << std::endl;
 }
 
@@ -310,11 +340,13 @@ void greedyMaxHeap(){
 
     Knapsack kSack = Knapsack(filenames, dataSetNum);
 
-    std::cout << "Testing Knapsack data structure..." << std::endl;
-    std::cout << "Data set: 0" << kSack.getDataSet() << std::endl;
-    std::cout << "Total number of items: " << kSack.getValues().size() - 1 << std::endl;
-    std::cout << "Capacity of Knapsack: " << kSack.getCapacity() << std::endl;
-    std::cout << std::endl;
+//    std::cout << "Testing Knapsack data structure..." << std::endl;
+//    std::cout << "Data set: 0" << kSack.getDataSet() << std::endl;
+//    std::cout << "Total number of items: " << kSack.getValues().size() - 1 << std::endl;
+//    std::cout << "Capacity of Knapsack: " << kSack.getCapacity() << std::endl;
+//    std::cout << std::endl;
+
+    auto startTime = std::chrono::high_resolution_clock::now();
 
     std::cout << "Computing optimal value for knapsack..." << std::endl;
     std::cout << std::endl;
@@ -323,7 +355,6 @@ void greedyMaxHeap(){
 
     std::vector<std::pair<float, int>> ratios;
     std::vector<int> results;
-    results.resize(1);
 
     int n = (int)values.size() - 1; // Account for vector starting at index 1
     int capacity = kSack.getCapacity();
@@ -341,12 +372,9 @@ void greedyMaxHeap(){
     std::vector<std::pair<float, int>> heapDeletions;
     for(int i = 0; i < n; i++){
         std::pair<float, int> current = mHeap.getDeleteMax();
-        std::cout << "Ratio: " << current.first << ", i: " << current.second << std::endl;
+//        std::cout << "Ratio: " << current.first << ", i: " << current.second << std::endl;
         heapDeletions.push_back(current);
     }
-
-    // Trim first dummy element
-    ratios.erase(ratios.begin());
 
 
     // calculate subset
@@ -357,11 +385,17 @@ void greedyMaxHeap(){
         if ((tmp_cap + weights[i]) < capacity){
             tmp_cap += weights[i];
             total_val += values[i];
-            results.push_back(i);
+            if(i > 0)
+                results.push_back(i);
         }else
             break;
     }
     std::sort(results.begin(), results.end());
+
+
+    auto endTime = std::chrono::high_resolution_clock::now();
+
+    auto elapsedTime = std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime);
 
 
     // print
@@ -371,7 +405,7 @@ void greedyMaxHeap(){
         std::cout << results[i] << ", ";
     }
     std::cout << results[results.size()-1] << "}" << std::endl;
-    std::cout << "Greedy Approach (max heap) Time Taken: <INSERT_TIME>" << std::endl;
+    std::cout << "Greedy Approach (max heap) Time Taken: " << elapsedTime.count() << " microseconds" << std::endl;
     std::cout << std::endl;
 }
 
@@ -437,6 +471,18 @@ void CreatePlot(std::string input_file,
     g("set timestamp");
     g("plot '" + input_file + "' using " + std::to_string(row1) + ":" + std::to_string(row2) + " lc rgb 'red'");
     g("quit");
+}
+
+void allApproaches(){
+    if (filenames[0].empty()){
+        std::cout << "Please select a data set (s)" << std::endl;
+        return;
+    }
+
+    traditionalKnapsack();
+    spaceEfficientKnapsack();
+    greedyBuiltInSort();
+    greedyMaxHeap();
 }
 
 
