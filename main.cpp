@@ -420,6 +420,9 @@ void testKValues(){
         return;
     }
 
+    std::ofstream testOutput;
+    testOutput.open("hash_table_sizes_test.txt", std::ios::out );
+
 
     Knapsack kSack = Knapsack(filenames, dataSetNum);
 
@@ -432,10 +435,13 @@ void testKValues(){
     int capacity = kSack.getCapacity();
 
     // SET k
-    int granularity = 100;
+    int granularity = 1000;
     for(int i = (n * capacity) / granularity; i < n * capacity; i += (n * capacity) / granularity){
         HashTable hTable = HashTable(n, capacity, i);
-        std::cout << "Size: " << (n * capacity) / granularity << ", Collisions: " << hTable.countCollisions() << std::endl;
+        int collisions = hTable.countCollisions();
+        std::cout << "Size: " << i << ", Collisions: " << collisions << std::endl;
+        testOutput << collisions << std::endl;
     }
 
+    testOutput.close();
 }
