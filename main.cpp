@@ -43,7 +43,7 @@ int main(int argc, char* argv[]) {
         std::cout << "--------------------------------------------" << std::endl;
         std::cout << "Options:\n\n(s) Set Input Files (do this first)\n\n";
         std::cout << "(a) Traditional DP Approach\n(b) Space Efficient DP\n\n";
-        std::cout << "(c) Greedy Approach (built-in sort)\n(d) Greedy Approach (max heap)\n\n(e) All Approaches\n(f) Compare\n\n(q) Quit\n";
+        std::cout << "(c) Greedy Approach (built-in sort)\n(d) Greedy Approach (max heap)\n\n(e) All Approaches\n\n(q) Quit\n";
         std::cin >> choice;
 
         char dataSelection = ' ';
@@ -73,9 +73,6 @@ int main(int argc, char* argv[]) {
                 break;
             case 'e':
                 allApproaches();
-                break;
-            case 'f':
-                compare();
                 break;
             case 'q':
                 break;

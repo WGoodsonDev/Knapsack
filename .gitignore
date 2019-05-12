@@ -39,3 +39,6 @@ CMakeLists.txt
 *.dat
 *.png
 /pt3
+/submit
+*.stackdump
+makefile
