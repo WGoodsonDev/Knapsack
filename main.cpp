@@ -18,16 +18,8 @@ void spaceEfficientKnapsack();
 int MFKnapsack(int i, int j, std::vector<int> &values, std::vector<int> &weights, HashTable *hTable);
 void greedyBuiltInSort();
 void greedyMaxHeap();
-void compare();
 void allApproaches();
 void testKValues();
-void CreatePlot(std::string input_file,
-                std::string output_file,
-                int row1, int row2, int xtic, int ytic,
-                int xr_min, int xr_max, int yr_min, int yr_max,
-                std::string xlabel,
-                std::string ylabel,
-                std::string title);
 
 std::string filenames[3];
 int dataSetNum = -1;
@@ -410,69 +402,6 @@ void greedyMaxHeap(){
     std::cout << std::endl;
 }
 
-void compare() {
-    /** For this to work, it needs inputs to be in a file, currently I have a file
- *  called dummy_data.dat to test that it was working and it does.  Not sure how
- *  we want to do this but we need to run each function and put the output into a file
- *  so we can use it for the graphs.  I know someone on canvas asked if we
- *  need to create the graph in the program or not, at this time the instructor
- *  has not responded. I think it could be easier to simply to make the graphs ourselves,
- *  otherwise we may need to change the functions we have in main to pass by reference
- *  in order to grab the data we need. If you have a better idea let me know.
- */
-
-    // collect data from all tests
-    for (int i = 0; i < 9; i++){
-
-    }
-
-    // dummy data
-    // Graph 1 for Task1 a/b
-    std::string _title = "Test Title"; std::string _xlabel = "space"; std::string _ylabel = "time";
-    int xt = 10, yt = 5;	// row/col increments
-    int xr_min = 0, xr_max = 100, yr_min = 0, yr_max = 50;
-    CreatePlot("dummy_data.dat", "TestGraph1.png", 1, 2, xt, yt, xr_min, xr_max, yr_min, yr_max, _xlabel, _ylabel, _title);
-
-    // Graph 2 for Task2 a/b
-    _title = "Test Title"; _xlabel = "number of inputs"; _ylabel = "time";
-    xt = 10, yt = 5;
-    xr_min = 0, xr_max = 100, yr_min = 0, yr_max = 50;
-    CreatePlot("dummy_data.dat", "TestGraph2.png", 1, 2, xt, yt, xr_min, xr_max, yr_min, yr_max, _xlabel, _ylabel, _title);
-
-
-
-    std::cout << "Created Graphs." << std::endl;
-}
-
-void CreatePlot(std::string input_file,
-                std::string output_file,
-                int row1, int row2, int xtic, int ytic,
-                int xr_min, int xr_max, int yr_min, int yr_max, // range min, range max
-                std::string xlabel,
-                std::string ylabel,
-                std::string title){
-
-    gnuplot g;
-
-    std::string xax = "set xtic " + std::to_string(xtic);
-    std::string yax = "set ytic " + std::to_string(ytic);
-
-    g("set term png");
-    g("set output \"" + output_file + "\" ");
-    g("set title \"" + title + "\" ");
-    g("set grid");
-    g("set pointsize");
-    g("set xtic " + std::to_string(xtic));
-    g("set ytic " + std::to_string(ytic));
-    g("set xlabel '" + xlabel + "' ");
-    g("set ylabel '" + ylabel + "' ");
-    g("set xrange [" + std::to_string(xr_min) + ":" + std::to_string(xr_max) + "]");
-    g("set yrange [" + std::to_string(yr_min) + ":" + std::to_string(yr_max) + "]");
-    g("unset key");
-    g("set timestamp");
-    g("plot '" + input_file + "' using " + std::to_string(row1) + ":" + std::to_string(row2) + " lc rgb 'red'");
-    g("quit");
-}
 
 void allApproaches(){
     if (filenames[0].empty()){
