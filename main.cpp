@@ -20,6 +20,7 @@ void greedyBuiltInSort();
 void greedyMaxHeap();
 void compare();
 void allApproaches();
+void testKValues();
 void CreatePlot(std::string input_file,
                 std::string output_file,
                 int row1, int row2, int xtic, int ytic,
@@ -74,6 +75,8 @@ int main(int argc, char* argv[]) {
             case 'e':
                 allApproaches();
                 break;
+            case 't':
+                testKValues();
             case 'q':
                 break;
             default:
@@ -205,7 +208,9 @@ void spaceEfficientKnapsack() {
     int n = (int)values.size() - 1; // Account for vector starting at index 1
     int capacity = kSack.getCapacity();
 
-    HashTable hTable = HashTable(n, capacity);
+    int k = (n * capacity) / 10;
+
+    HashTable hTable = HashTable(n, capacity, k);
 
     // Use MFKnapsack to get optimal value of subset
 
@@ -482,4 +487,29 @@ void allApproaches(){
     greedyMaxHeap();
 }
 
+// Test values of k on hash tables with the same data
+void testKValues(){
+    if(filenames[0].empty()){
+        std::cout << "Please select a data set (s)" << std::endl;
+        return;
+    }
 
+
+    Knapsack kSack = Knapsack(filenames, dataSetNum);
+
+    std::cout << "Computing optimal value for knapsack..." << std::endl;
+    std::cout << std::endl;
+    std::vector<int> values = kSack.getValues();
+    std::vector<int> weights = kSack.getWeights();
+
+    int n = (int)values.size() - 1; // Account for vector starting at index 1
+    int capacity = kSack.getCapacity();
+
+    // SET k
+    int granularity = 100;
+    for(int i = (n * capacity) / granularity; i < n * capacity; i += (n * capacity) / granularity){
+        HashTable hTable = HashTable(n, capacity, i);
+        std::cout << "Size: " << (n * capacity) / granularity << ", Collisions: " << hTable.countCollisions() << std::endl;
+    }
+
+}

@@ -26,7 +26,7 @@ struct TableNode{
 class HashTable {
 
 public:
-    HashTable(int n, int w);
+    HashTable(int n, int w, int k);
     ~HashTable();
     void hashInsert(int i, int j, int value);
     int hashGet(int i, int j);

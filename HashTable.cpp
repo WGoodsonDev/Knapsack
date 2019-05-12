@@ -6,8 +6,8 @@
 #include <sstream>
 #include "HashTable.h"
 
-HashTable::HashTable(int n, int w): numObjects(n), capacity(w), numInsertions(0) {
-    hTable.resize((unsigned long)w * 2);
+HashTable::HashTable(int n, int w, int k): numObjects(n), capacity(w), numInsertions(0) {
+    hTable.resize(k);
     // Need to initialize (i, 0) and (0, j) rows to all 0's
     for(int i = 0; i < n; i++)
         hashInsert(i, 0, 0);
