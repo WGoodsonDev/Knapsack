@@ -1,7 +1,3 @@
-//
-// Created by Warren Goodson on 5/11/2019.
-//
-
 #include "MaxHeap.h"
 
 MaxHeap::MaxHeap(std::vector<std::pair<float, int>> input) {

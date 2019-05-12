@@ -1,7 +1,3 @@
-//
-// Created by Warren Goodson on 5/11/2019.
-//
-
 #include <vector>
 #include <map>
 #include <cmath>

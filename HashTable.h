@@ -1,7 +1,3 @@
-//
-// Created by Warren Goodson on 5/3/2019.
-//
-
 #ifndef KNAPSACK_HASHTABLE_H
 #define KNAPSACK_HASHTABLE_H
 

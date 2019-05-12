@@ -1,7 +1,3 @@
-//
-// Created by Warren Goodson on 5/3/2019.
-//
-
 #include <cmath>
 #include <sstream>
 #include "HashTable.h"

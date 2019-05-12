@@ -1,5 +1,3 @@
-// By Warren Goodson and Erik Brownell
-
 #include <iostream>
 #include <fstream>
 #include <ctime>
