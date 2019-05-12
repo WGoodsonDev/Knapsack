@@ -266,7 +266,6 @@ void greedyBuiltInSort(){
 
     std::map<float, int, std::greater<float> > ratios;
     std::vector<int> results;
-    results.resize(1);
 
     int n = (int)values.size() - 1; // Account for vector starting at index 1
     int capacity = kSack.getCapacity();
@@ -284,10 +283,9 @@ void greedyBuiltInSort(){
     for (auto& r: ratios){
         int i = r.second;
         if ((tmp_cap + weights[i]) < capacity){
-            tmp_cap += weights[i];
             total_val += values[i];
-            if(i > 0)
-                results.push_back(i);
+            tmp_cap += weights[i];
+            results.push_back(i);
         }else
             break;
     }
@@ -339,22 +337,27 @@ void greedyMaxHeap(){
 
     // Build max heap from ratios
     MaxHeap mHeap = MaxHeap(ratios);
+
+    std::vector<std::pair<float, int>> heapDeletions;
     for(int i = 0; i < n; i++){
         std::pair<float, int> current = mHeap.getDeleteMax();
         std::cout << "Ratio: " << current.first << ", i: " << current.second << std::endl;
+        heapDeletions.push_back(current);
     }
+
+    // Trim first dummy element
+    ratios.erase(ratios.begin());
 
 
     // calculate subset
     float tmp_cap = 0;
     int total_val = 0;
-    for (auto& r: ratios){
+    for (auto& r: heapDeletions){
         int i = r.second;
         if ((tmp_cap + weights[i]) < capacity){
             tmp_cap += weights[i];
             total_val += values[i];
-            if(i > 0)
-                results.push_back(i);
+            results.push_back(i);
         }else
             break;
     }
