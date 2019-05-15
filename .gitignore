@@ -38,7 +38,9 @@ CMakeLists.txt
 
 *.dat
 *.png
+*.zip
 /pt3
 /submit
-*.stackdump
+/GoodsonBrownell_proj04
+*stackdump
 makefile
